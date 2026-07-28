@@ -119,23 +119,18 @@ export default function Footer() {
           <FooterColumn title="Resources" links={resourceLinks} />
         </div>
 
-        <div className="mt-12 border-t border-emerald-600/40 pt-6 lg:mt-14 lg:pt-6">
+        <div className="mt-12 border-t-2 border-emerald-400/80 pt-6 lg:mt-14 lg:pt-6">
           <div className="flex flex-col-reverse items-center justify-between gap-6 lg:flex-row lg:gap-4">
             <p className="text-sm lg:text-base text-white/50 text-center lg:text-left">
               Copyright © {new Date().getFullYear()} Decofice Technologies Private Limited | All rights reserved
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6">
-              <span className="rounded border border-white/15 bg-white/5 px-2.5 py-1 text-xs lg:px-3 lg:py-1.5 lg:text-sm font-bold tracking-wide text-white/70">
-                UPI
-              </span>
-              <span className="relative flex h-5 w-8 lg:h-6 lg:w-11 items-center">
-                <span className="absolute left-0 h-5 w-5 lg:h-6 lg:w-6 rounded-full bg-red-500" />
-                <span className="absolute left-3 lg:left-4 h-5 w-5 lg:h-6 lg:w-6 rounded-full bg-amber-400 opacity-90" />
-              </span>
-              <span className="text-sm lg:text-base font-black text-white/80 italic">VISA</span>
-              <span className="text-sm lg:text-base font-bold text-white/80 italic">RuPay</span>
-              <span className="rounded bg-blue-600 px-2 py-1 text-xs lg:px-2.5 lg:py-1.5 font-bold text-white">AMEX</span>
+              <img src="/footer/Untitled design (11).avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
+              <img src="/footer/2.avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
+              <img src="/footer/Frame 1618873261.avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
+              <img src="/footer/Frame 1618873264.avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
+              <img src="/footer/American Express Square Logo.avif" alt="American Express" className="h-8 lg:h-12 w-auto object-contain" />
             </div>
           </div>
         </div>
