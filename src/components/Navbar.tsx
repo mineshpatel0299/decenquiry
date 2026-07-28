@@ -30,31 +30,31 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className="relative z-30 w-full mx-auto max-w-[1800px] bg-white px-6 py-6 opacity-0 sm:px-8 lg:px-10"
+      className="relative z-30 w-full mx-auto max-w-[1536px] bg-white px-6 py-6 opacity-0 sm:px-8 lg:px-10"
     >
-      <div className="flex items-center justify-between w-full">
-        <div>
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full">
+        <div className="justify-self-start">
           <a href="/" className="shrink-0 text-[#105E3F] transition-opacity hover:opacity-90 inline-block">
             <Logo className="w-[50px] h-[48px]" />
           </a>
         </div>
 
-        <nav className="hidden lg:flex items-center justify-center gap-9">
+        <nav className="hidden lg:flex items-center justify-center justify-self-center gap-20">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-opensans text-[15px] font-normal leading-none tracking-normal text-neutral-700 transition-colors hover:text-black"
+              className="font-opensans text-[16px] font-normal leading-none tracking-normal text-neutral-700 transition-colors hover:text-black"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end justify-self-end">
           <a
             href="https://www.decofice.com/contact"
-            className="hidden shrink-0 items-center justify-center rounded-full bg-transparent border border-black px-7 py-2.5 h-[42px] font-opensans text-[15px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white lg:inline-flex"
+            className="hidden shrink-0 items-center justify-center rounded-full bg-transparent border border-black px-5 py-2 h-[38px] font-opensans text-[16px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white lg:inline-flex"
           >
             Contact Us
           </a>
@@ -86,7 +86,7 @@ export default function Navbar() {
         id="mobile-nav-menu"
         className={`absolute inset-x-4 top-full z-20 origin-top overflow-hidden rounded-2xl border border-neutral-200 bg-white/95 backdrop-blur-sm shadow-xl transition-all duration-300 ease-out lg:hidden ${menuOpen ? "mt-3 max-h-100 opacity-100" : "mt-0 max-h-0 opacity-0"}`}
       >
-        <nav className="flex flex-col items-center gap-6 px-6 py-8">
+        <nav className="flex flex-col items-center gap-8 px-6 py-8">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -100,7 +100,7 @@ export default function Navbar() {
           <a
             href="https://www.decofice.com/contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 flex w-full max-w-52 items-center justify-center gap-[8px] rounded-full bg-transparent border border-black px-6 py-2.5 h-10 font-opensans text-[15px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white"
+            className="mt-2 flex w-full max-w-52 items-center justify-center gap-[8px] rounded-full bg-transparent border border-black px-6 py-2 h-[38px] font-opensans text-[16px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white"
           >
             Contact Us
           </a>
