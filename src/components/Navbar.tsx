@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Real Estate Solution", href: "https://www.decofice.com/realestate-solution" },
   { label: "About Us", href: "https://www.decofice.com/about" },
   { label: "Start Your Project", href: "https://www.decofice.com/project-booking" },
-  { label: "Resorts", href: "https://resort.decofice.com" },
+  { label: "Resort", href: "https://resort.decofice.com" },
 ];
 
 export default function Navbar() {
@@ -30,52 +30,56 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className="relative z-30 w-full mx-auto max-w-[1800px] bg-white px-8 py-6 opacity-0 sm:px-12"
+      className="relative z-30 w-full mx-auto max-w-[1800px] bg-white px-6 py-6 opacity-0 sm:px-8 lg:px-10"
     >
       <div className="flex items-center justify-between w-full">
-        <a href="/" className="shrink-0 text-[#105E3F] transition-opacity hover:opacity-90">
-          <Logo className="w-[50px] h-[48px]" />
-        </a>
+        <div>
+          <a href="/" className="shrink-0 text-[#105E3F] transition-opacity hover:opacity-90 inline-block">
+            <Logo className="w-[50px] h-[48px]" />
+          </a>
+        </div>
 
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 lg:flex">
+        <nav className="hidden lg:flex items-center justify-center gap-9">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-opensans text-[18px] font-medium leading-none tracking-normal text-neutral-700 transition-colors hover:text-black"
+              className="font-opensans text-[15px] font-normal leading-none tracking-normal text-neutral-700 transition-colors hover:text-black"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <a
-          href="https://www.decofice.com/contact"
-          className="hidden shrink-0 items-center justify-center gap-[10px] rounded-full bg-black px-8 py-3.5 h-13 font-opensans text-[18px] font-medium leading-6 tracking-normal text-white transition-colors hover:bg-neutral-800 lg:inline-flex"
-        >
-          Contact Us
-        </a>
+        <div className="flex items-center justify-end">
+          <a
+            href="https://www.decofice.com/contact"
+            className="hidden shrink-0 items-center justify-center rounded-full bg-transparent border border-black px-7 py-2.5 h-[42px] font-opensans text-[15px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white lg:inline-flex"
+          >
+            Contact Us
+          </a>
 
-        <button
-          type="button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav-menu"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className="relative z-30 flex h-10 w-10 shrink-0 items-center justify-center text-black lg:hidden"
-        >
-          <span className="relative block h-4 w-5.5">
-            <span
-              className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 rotate-45" : "top-0 rotate-0"}`}
-            />
-            <span
-              className={`absolute left-0 top-1.75 h-0.5 w-full rounded-full bg-current transition-opacity duration-300 ${menuOpen ? "opacity-0" : "opacity-100"}`}
-            />
-            <span
-              className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 -rotate-45" : "top-3.5 rotate-0"}`}
-            />
-          </span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav-menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className="relative z-30 flex h-10 w-10 shrink-0 items-center justify-center text-black lg:hidden"
+          >
+            <span className="relative block h-4 w-5.5">
+              <span
+                className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 rotate-45" : "top-0 rotate-0"}`}
+              />
+              <span
+                className={`absolute left-0 top-1.75 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "opacity-0" : "opacity-100"}`}
+              />
+              <span
+                className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 -rotate-45" : "top-3.5 rotate-0"}`}
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
       <div
@@ -96,7 +100,7 @@ export default function Navbar() {
           <a
             href="https://www.decofice.com/contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 flex w-full max-w-60 items-center justify-center gap-[10px] rounded-full bg-black px-8 py-3.5 h-13 font-opensans text-[18px] font-medium leading-6 tracking-normal text-white transition-colors hover:bg-neutral-800"
+            className="mt-2 flex w-full max-w-52 items-center justify-center gap-[8px] rounded-full bg-transparent border border-black px-6 py-2.5 h-10 font-opensans text-[15px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white"
           >
             Contact Us
           </a>

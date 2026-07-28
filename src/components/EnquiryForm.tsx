@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 // Dropdown options based on screenshots
 const BUDGET_OPTIONS = [
@@ -180,6 +181,17 @@ function CustomDropdown({
 
 export default function EnquiryForm() {
   const router = useRouter();
+  
+  // Parallax Setup
+  const { scrollY } = useScroll();
+  // The container fades out and moves down slowly
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const y = useTransform(scrollY, [0, 400], [0, 150]);
+  
+  // Elements move at slightly different speeds for depth
+  const yDiveIn = useTransform(scrollY, [0, 400], [0, 50]);
+  const ySubmit = useTransform(scrollY, [0, 400], [0, 100]);
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
