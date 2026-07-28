@@ -34,7 +34,7 @@ export default function Navbar() {
     >
       <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full">
         <div className="justify-self-start">
-          <a href="/" className="shrink-0 text-[#105E3F] transition-opacity hover:opacity-90 inline-block">
+          <a href="/" className="shrink-0 text-[#28975d] transition-opacity hover:opacity-90 inline-block">
             <Logo className="w-[50px] h-[48px]" />
           </a>
         </div>

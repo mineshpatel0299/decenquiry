@@ -89,7 +89,7 @@ export default function Footer() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "linear-gradient(to bottom, rgba(16,94,63,0.35) 0%, transparent 100%)",
+          background: "linear-gradient(to bottom, rgba(40,151,93,0.35) 0%, transparent 50%)",
         }}
       />
 
