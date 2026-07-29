@@ -81,10 +81,22 @@ Gallabox only shows you which fields it received *after* it gets a real payload.
 
 ### Step C — Map the WhatsApp template
 1. Back in Gallabox, open the webhook integration you just created — it should now list the fields it received:
-   `name`, `phone`, `email`, `lead_source`, `budget`, `start_time`, `project_kind`, `location`, `service`, `about_project`, `heard_about`
+   `name`, `phone`, `email`, `tags`, `lead_source`, `lead_stage`, `payment_status`, `service`
 2. Choose or create the WhatsApp template you want to send.
-3. Map each template variable to the matching field above (e.g. `{{1}}` → `name`, `{{2}}` → `budget`, etc.).
+3. Map each template variable to the matching field above (e.g. `{{1}}` → `name`, `{{2}}` → `service`, etc.).
 4. Save and activate the workflow.
+
+### About Tags / Lead Source / Lead Stage / Payment Status
+These four are sent as **placeholder text** right now, since they're dropdown fields configured inside your Gallabox account and I don't have visibility into your exact predefined option names:
+
+| Field | Placeholder sent | Meaning |
+|---|---|---|
+| `tags` | `"Website"` | Tag applied to every lead from this form |
+| `lead_source` | `"Website"` | Where the lead came from |
+| `lead_stage` | `"New"` | Pipeline stage for a brand-new enquiry |
+| `payment_status` | `"Unpaid"` | Payment status before anything's been paid |
+
+**Tell your developer the exact option names from your Gallabox dropdowns** (Contacts → field settings, or wherever these predefined lists live) if they should say something different — it's a one-line change in `src/app/api/enquiry/route.ts` per field.
 
 ### Who does the WhatsApp message go to?
 Right now, `phone` in the payload is the **lead's own number** — so once a template is mapped and active, the lead themselves will receive a WhatsApp message. **If you actually want your sales team notified instead (not the lead directly), tell your developer** — the fix is to send the message to a fixed internal number rather than the lead's number, which is a small code change, not a Gallabox-side change.

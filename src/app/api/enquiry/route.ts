@@ -138,14 +138,13 @@ export async function POST(request: NextRequest) {
             name,
             phone: `${countryCode ?? ""} ${phone}`.trim(),
             email,
-            lead_source: "Decofice Website",
-            budget,
-            start_time: startTime,
-            project_kind: projectKind,
-            location,
+            // Placeholder text — swap these for your real Gallabox dropdown option
+            // names once you've mapped this webhook to its predefined fields.
+            tags: "Website",
+            lead_source: "Website",
+            lead_stage: "New",
+            payment_status: "Unpaid",
             service,
-            about_project: aboutProject,
-            heard_about: heardAbout,
           }),
         }).then(async (res) => {
           if (!res.ok) throw new Error(`Gallabox responded ${res.status}: ${await res.text()}`);
