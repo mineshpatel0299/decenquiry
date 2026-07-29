@@ -89,17 +89,52 @@ export async function POST(request: NextRequest) {
     </table>
   `;
 
-  try {
-    await transporter.sendMail({
-      from: process.env.MAIL_FROM || process.env.SMTP_USER,
-      to: process.env.MAIL_TO,
-      replyTo: email,
-      subject: `New Enquiry from ${name}`,
-      html,
-    });
-  } catch (error) {
-    console.error("Failed to send enquiry email:", error);
-    return NextResponse.json({ error: "Failed to send enquiry" }, { status: 502 });
+  const sendEmail = transporter.sendMail({
+    from: process.env.MAIL_FROM || process.env.SMTP_USER,
+    to: process.env.MAIL_TO,
+    replyTo: email,
+    subject: `New Enquiry from ${name}`,
+    html,
+  });
+
+  const sendToPrivyr = process.env.PRIVYR_AUTH_TOKEN
+    ? fetch("https://www.privyr.com/integrations/api/v1/incoming-webhook", {
+        method: "POST",
+        headers: {
+          "X-TOKEN": process.env.PRIVYR_AUTH_TOKEN,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          lead_source: "Decofice Website",
+          email,
+          phone: `${countryCode ?? ""} ${phone}`.trim(),
+          other_fields: {
+            Budget: budget,
+            "Start Time": startTime,
+            "Kind of Project": projectKind,
+            Location: location,
+            "Service Needed": service,
+            "About the Project": aboutProject,
+            "Heard About Us Via": heardAbout,
+          },
+        }),
+      }).then(async (res) => {
+        if (!res.ok) throw new Error(`Privyr responded ${res.status}: ${await res.text()}`);
+      })
+    : Promise.reject(new Error("PRIVYR_AUTH_TOKEN not configured"));
+
+  const [emailResult, privyrResult] = await Promise.allSettled([sendEmail, sendToPrivyr]);
+
+  if (emailResult.status === "rejected") {
+    console.error("Failed to send enquiry email:", emailResult.reason);
+  }
+  if (privyrResult.status === "rejected") {
+    console.error("Failed to push lead to Privyr:", privyrResult.reason);
+  }
+
+  if (emailResult.status === "rejected" && privyrResult.status === "rejected") {
+    return NextResponse.json({ error: "Failed to submit enquiry" }, { status: 502 });
   }
 
   return NextResponse.json({ success: true });

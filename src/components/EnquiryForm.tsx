@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 // Dropdown options based on screenshots
 const BUDGET_OPTIONS = [
-  "Under 50 Lakhs",
   "Under 75 Lakhs",
   "₹75 - ₹1 Crores",
   "₹1 - ₹1.5 Crores",

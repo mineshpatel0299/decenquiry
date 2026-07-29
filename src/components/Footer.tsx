@@ -3,10 +3,9 @@ import Logo from "./Logo";
 const companyLinks = [
   { label: "Real Estate Solution", href: "https://www.decofice.com/realestate-solution" },
   { label: "Projects", href: "https://www.decofice.com/project" },
-  { label: "Resorts", href: "https://resort.decofice.com" },
   { label: "Start Your Project", href: "https://www.decofice.com/project-booking" },
   { label: "About Us", href: "https://www.decofice.com/about" },
-  { label: "Contact Us", href: "https://www.decofice.com/contact" }
+  { label: "Contact Us", href: "#" }
 ];
 const policyLinks = [
   { label: "Privacy Policy", href: "https://www.decofice.com/privacypolicy" },
@@ -69,11 +68,11 @@ const socials = [
 function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
     <div>
-      <h3 className="text-base lg:text-lg font-semibold text-white">{title}</h3>
-      <ul className="mt-4 flex flex-col gap-3 lg:mt-5 lg:gap-4">
+      <h3 className="text-sm lg:text-sm font-semibold text-white">{title}</h3>
+      <ul className="mt-3 flex flex-col gap-2.5 lg:mt-4 lg:gap-3">
         {links.map((link) => (
           <li key={link.label}>
-            <a href={link.href} className="text-[15px] lg:text-[17px] font-light text-white/90 transition-opacity hover:text-white">
+            <a href={link.href} className="text-xs lg:text-sm text-white/60 transition-colors hover:text-white">
               {link.label}
             </a>
           </li>
@@ -89,23 +88,26 @@ export default function Footer() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "linear-gradient(to bottom, rgba(40,151,93,0.35) 0%, transparent 50%)",
+          background: "linear-gradient(to bottom, rgba(16,94,63,0.35) 0%, transparent 100%)",
         }}
       />
 
-      <div className="relative w-full px-8 pt-16 pb-12 sm:px-12 lg:px-16 xl:px-24 lg:pt-24 lg:pb-12">
-        <div className="grid grid-cols-2 gap-y-12 gap-x-4 lg:flex lg:flex-row lg:justify-start lg:gap-16 xl:gap-20">
-          <div className="col-span-2 mb-2 lg:col-span-1 lg:mb-0 lg:w-[280px] xl:w-[320px] shrink-0">
-            <Logo className="h-10 lg:h-16 w-auto text-white" />
-            <p className="mt-5 text-base lg:text-xl font-semibold text-white">Experience the dream</p>
-            <p className="mt-2 text-base lg:text-lg text-white">CIN: U72900KL2021PTC069994</p>
-            <div className="mt-6 flex items-center gap-4 lg:mt-6">
+      <div className="relative mx-auto max-w-7xl px-6 pt-12 pb-8 lg:px-12 lg:pt-16 lg:pb-8">
+        {/* Main Footer Links - Grid on Mobile, Flex on Desktop */}
+        <div className="grid grid-cols-2 gap-y-10 gap-x-4 lg:flex lg:flex-row lg:justify-between lg:gap-12">
+
+          {/* Logo & Company Info */}
+          <div className="col-span-2 mb-2 lg:col-span-1 lg:mb-0 lg:min-w-[240px]">
+            <Logo className="h-7 lg:h-9 w-auto text-white" />
+            <p className="mt-4 text-sm lg:text-lg font-semibold text-white">Experience the dream</p>
+            <p className="mt-1.5 text-xs lg:text-sm text-white/50">CIN: U72900KL2021PTC069994</p>
+            <div className="mt-5 flex items-center gap-3 lg:mt-5">
               {socials.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-white text-black transition-opacity hover:opacity-80 shrink-0 [&>svg]:w-4 [&>svg]:h-4 lg:[&>svg]:w-5 lg:[&>svg]:h-5"
+                  className="flex h-8 w-8 lg:h-9 lg:w-9 items-center justify-center rounded-full bg-white text-black transition-opacity hover:opacity-80 shrink-0 [&>svg]:w-3.5 [&>svg]:h-3.5 lg:[&>svg]:w-4 lg:[&>svg]:h-4"
                 >
                   {s.icon}
                 </a>
@@ -119,19 +121,27 @@ export default function Footer() {
           <FooterColumn title="Resources" links={resourceLinks} />
         </div>
 
-        <div className="mt-12 border-t-2 border-emerald-400/80 pt-6 lg:mt-14 lg:pt-6">
+        {/* Bottom Section - Stacked on Mobile, Row on Desktop */}
+        <div className="mt-12 border-t border-emerald-600/40 pt-6 lg:mt-14 lg:pt-6">
           <div className="flex flex-col-reverse items-center justify-between gap-6 lg:flex-row lg:gap-4">
-            <p className="text-sm lg:text-base text-white/50 text-center lg:text-left">
+
+            <p className="text-xs lg:text-sm text-white/50 text-center lg:text-left">
               Copyright © {new Date().getFullYear()} Decofice Technologies Private Limited | All rights reserved
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6">
-              <img src="/footer/Untitled design (11).avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
-              <img src="/footer/2.avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
-              <img src="/footer/Frame 1618873261.avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
-              <img src="/footer/Frame 1618873264.avif" alt="Payment Method" className="h-8 lg:h-12 w-auto object-contain" />
-              <img src="/footer/American Express Square Logo.avif" alt="American Express" className="h-8 lg:h-12 w-auto object-contain" />
+            <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-4">
+              <span className="rounded border border-white/15 bg-white/5 px-2 py-1 text-[10px] lg:px-2.5 lg:py-1 lg:text-xs font-bold tracking-wide text-white/70">
+                UPI
+              </span>
+              <span className="relative flex h-4 w-7 lg:h-5 lg:w-9 items-center">
+                <span className="absolute left-0 h-4 w-4 lg:h-5 lg:w-5 rounded-full bg-red-500" />
+                <span className="absolute left-2.5 lg:left-3 h-4 w-4 lg:h-5 lg:w-5 rounded-full bg-amber-400 opacity-90" />
+              </span>
+              <span className="text-xs lg:text-sm font-black text-white/80 italic">VISA</span>
+              <span className="text-xs lg:text-sm font-bold text-white/80 italic">RuPay</span>
+              <span className="rounded bg-blue-600 px-1.5 py-0.5 text-[10px] lg:px-2 lg:py-1 font-bold text-white">AMEX</span>
             </div>
+
           </div>
         </div>
       </div>

@@ -11,6 +11,10 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-opensans: var(--font-open-sans);
+  --color-emerald-400: #25975B;
+  --color-emerald-500: #25975B;
+  --color-emerald-600: #25975B;
+  --color-emerald-700: #25975B;
 }
 
 

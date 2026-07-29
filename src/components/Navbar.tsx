@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Real Estate Solution", href: "https://www.decofice.com/realestate-solution" },
   { label: "About Us", href: "https://www.decofice.com/about" },
   { label: "Start Your Project", href: "https://www.decofice.com/project-booking" },
-  { label: "Resort", href: "https://resort.decofice.com" },
+  { label: "Resorts", href: "https://resort.decofice.com" },
 ];
 
 export default function Navbar() {
@@ -30,63 +30,59 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className="relative z-30 w-full mx-auto max-w-[1536px] bg-white px-6 py-6 opacity-0 sm:px-8 lg:px-10"
+      className="relative z-30 w-full mx-auto max-w-[1800px] bg-white px-8 py-6 opacity-0 sm:px-12"
     >
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full">
-        <div className="justify-self-start">
-          <a href="/" className="shrink-0 text-[#28975d] transition-opacity hover:opacity-90 inline-block">
-            <Logo className="w-[50px] h-[48px]" />
-          </a>
-        </div>
+      <div className="flex items-center justify-between w-full">
+        <a href="/" className="shrink-0 text-[#105E3F] transition-opacity hover:opacity-90">
+          <Logo className="w-[50px] h-[48px]" />
+        </a>
 
-        <nav className="hidden lg:flex items-center justify-center justify-self-center gap-20">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-opensans text-[16px] font-normal leading-none tracking-normal text-neutral-700 transition-colors hover:text-black"
+              className="font-opensans text-[18px] font-medium leading-none tracking-normal text-neutral-700 transition-colors hover:text-black"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center justify-end justify-self-end">
-          <a
-            href="https://www.decofice.com/contact"
-            className="hidden shrink-0 items-center justify-center rounded-full bg-transparent border border-black px-5 py-2 h-[38px] font-opensans text-[16px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white lg:inline-flex"
-          >
-            Contact Us
-          </a>
+        <a
+          href="https://www.decofice.com/contact"
+          className="hidden shrink-0 items-center justify-center gap-[10px] rounded-full px-8 py-3.5 h-13 border border-black font-opensans text-[18px] font-medium leading-6 tracking-normal text-black transition-colors hover:bg-neutral-800 hover:text-white lg:inline-flex"
+        >
+          Contact Us
+        </a>
 
-          <button
-            type="button"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav-menu"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="relative z-30 flex h-10 w-10 shrink-0 items-center justify-center text-black lg:hidden"
-          >
-            <span className="relative block h-4 w-5.5">
-              <span
-                className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 rotate-45" : "top-0 rotate-0"}`}
-              />
-              <span
-                className={`absolute left-0 top-1.75 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "opacity-0" : "opacity-100"}`}
-              />
-              <span
-                className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 -rotate-45" : "top-3.5 rotate-0"}`}
-              />
-            </span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav-menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className="relative z-30 flex h-10 w-10 shrink-0 items-center justify-center text-black lg:hidden"
+        >
+          <span className="relative block h-4 w-5.5">
+            <span
+              className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 rotate-45" : "top-0 rotate-0"}`}
+            />
+            <span
+              className={`absolute left-0 top-1.75 h-0.5 w-full rounded-full bg-current transition-opacity duration-300 ${menuOpen ? "opacity-0" : "opacity-100"}`}
+            />
+            <span
+              className={`absolute left-0 h-0.5 w-full rounded-full bg-current transition-all duration-300 ${menuOpen ? "top-1.75 -rotate-45" : "top-3.5 rotate-0"}`}
+            />
+          </span>
+        </button>
       </div>
 
       <div
         id="mobile-nav-menu"
         className={`absolute inset-x-4 top-full z-20 origin-top overflow-hidden rounded-2xl border border-neutral-200 bg-white/95 backdrop-blur-sm shadow-xl transition-all duration-300 ease-out lg:hidden ${menuOpen ? "mt-3 max-h-100 opacity-100" : "mt-0 max-h-0 opacity-0"}`}
       >
-        <nav className="flex flex-col items-center gap-8 px-6 py-8">
+        <nav className="flex flex-col items-center gap-6 px-6 py-8">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -100,7 +96,7 @@ export default function Navbar() {
           <a
             href="https://www.decofice.com/contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 flex w-full max-w-52 items-center justify-center gap-[8px] rounded-full bg-transparent border border-black px-6 py-2 h-[38px] font-opensans text-[16px] font-medium leading-none tracking-normal text-black transition-all hover:bg-black hover:text-white"
+            className="mt-2 flex w-full max-w-60 items-center justify-center gap-[10px] rounded-full bg-black px-8 py-3.5 h-13 font-opensans text-[18px] font-medium leading-6 tracking-normal text-white transition-colors hover:bg-neutral-800"
           >
             Contact Us
           </a>
