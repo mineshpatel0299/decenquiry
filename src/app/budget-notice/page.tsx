@@ -18,7 +18,7 @@ export default function BudgetNoticePage() {
             <div className="absolute w-[72px] h-[72px] rounded-full bg-[#8B2635]/[0.05] border border-[#8B2635]/20 scale-100 group-hover:scale-105 transition-transform duration-500 ease-out delay-75" />
 
             {/* Core Icon Badge */}
-            <div className="relative w-14 h-14 bg-gradient-to-br from-[#8B2635] to-[#601823] text-white rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(139,38,53,0.3)] z-10">
+            <div className="relative w-14 h-14 bg-gradient-to-br from-[#E8392C] to-[#E8392C] text-white rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(139,38,53,0.3)] z-10">
               {/* Subtle glass reflection on the badge */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-60" />
 
@@ -29,13 +29,13 @@ export default function BudgetNoticePage() {
           </div>
         </div>
 
-        <h2 className="text-[10px] font-semibold tracking-[0.3em] text-[#8B2635]/80 uppercase mb-4">
-          Your enquiry has been rejected.
+        <h2 className="text-[10px] font-semibold tracking-[0.3em] text-[#FF3131]/80 uppercase mb-4">
+          Lead Status.
         </h2>
 
         <h1 className="text-4xl sm:text-[46px] font-bold text-neutral-900 tracking-tight mb-8 leading-[1.15]">
-          This Lead Has Been <br />
-          <span className="font-serif italic font-light text-[#8B2635] relative inline-block mt-1">
+          Your enquiry has been  <br />
+          <span className="font-serif italic font-light text-[#E8392C] relative inline-block mt-1">
             Rejected
             <svg className="absolute -bottom-2 left-0 w-full h-2 text-[#8B2635]/30" viewBox="0 0 100 10" preserveAspectRatio="none">
               <path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" strokeWidth="1" />
@@ -59,7 +59,7 @@ export default function BudgetNoticePage() {
         <div className="flex flex-col items-center justify-center w-full">
           <Link
             href="https://www.decofice.com/"
-            className="group relative inline-flex items-center justify-center gap-3 bg-[#8B2635] text-white font-medium text-sm px-10 py-4 rounded-full transition-all duration-300 shadow-[0_8px_20px_rgba(139,38,53,0.25)] hover:shadow-[0_12px_25px_rgba(139,38,53,0.35)] active:scale-[0.98] overflow-hidden"
+            className="group relative inline-flex items-center justify-center gap-3 bg-[#105E3F] text-white font-medium text-sm px-10 py-4 rounded-full transition-all duration-300 shadow-[0_8px_20px_rgba(139,38,53,0.25)] hover:shadow-[0_12px_25px_rgba(139,38,53,0.35)] active:scale-[0.98] overflow-hidden"
           >
             <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <svg className="w-4 h-4 relative z-10 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

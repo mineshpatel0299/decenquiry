@@ -207,6 +207,7 @@ export default function EnquiryForm() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [countryCode, setCountryCode] = useState(COUNTRY_OPTIONS[0]);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const countryRef = useRef<HTMLDivElement>(null);
@@ -236,7 +237,7 @@ export default function EnquiryForm() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
 
@@ -255,6 +256,23 @@ export default function EnquiryForm() {
       setErrors(newErrors);
       return;
     }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, countryCode: countryCode.code }),
+      });
+
+      if (!res.ok) throw new Error("Request failed");
+    } catch {
+      setIsSubmitting(false);
+      setErrors({ submit: "Something went wrong while submitting. Please try again." });
+      return;
+    }
+
+    setIsSubmitting(false);
 
     if (formData.budget === "Under 50 Lakhs" || formData.budget === "Under 75 Lakhs") {
       router.push("/budget-notice");
@@ -482,11 +500,13 @@ export default function EnquiryForm() {
 
           {/* Row 10: Submit Button */}
           <div className="pt-2">
+            {errors.submit && <p className="mb-3 text-sm text-red-500 text-center">{errors.submit}</p>}
             <button
               type="submit"
-              className="w-full bg-black text-white hover:bg-neutral-800 font-medium text-sm md:text-base py-3.5 md:py-4 rounded-full transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer"
+              disabled={isSubmitting}
+              className="w-full bg-black text-white hover:bg-neutral-800 font-medium text-sm md:text-base py-3.5 md:py-4 rounded-full transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>
