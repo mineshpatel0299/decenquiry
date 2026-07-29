@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import Logo from "./Logo";
 
 const navLinks = [
   { label: "Projects", href: "https://www.decofice.com/project" },
@@ -33,8 +32,8 @@ export default function Navbar() {
       className="relative z-30 w-full mx-auto max-w-[1800px] bg-white px-8 py-6 opacity-0 sm:px-12"
     >
       <div className="flex items-center justify-between w-full">
-        <a href="/" className="shrink-0 text-[#105E3F] transition-opacity hover:opacity-90">
-          <Logo className="w-[50px] h-[48px]" />
+        <a href="/" className="shrink-0 transition-opacity hover:opacity-90">
+          <img src="/logoo.png" alt="Decofice Logo" className="h-[48px] w-auto object-contain" />
         </a>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 lg:flex">

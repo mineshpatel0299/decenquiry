@@ -97,11 +97,10 @@ export async function POST(request: NextRequest) {
     html,
   });
 
-  const sendToPrivyr = process.env.PRIVYR_AUTH_TOKEN
-    ? fetch("https://www.privyr.com/integrations/api/v1/incoming-webhook", {
+  const sendToPrivyr = process.env.PRIVYR_WEBHOOK_URL
+    ? fetch(process.env.PRIVYR_WEBHOOK_URL, {
         method: "POST",
         headers: {
-          "X-TOKEN": process.env.PRIVYR_AUTH_TOKEN,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -122,7 +121,7 @@ export async function POST(request: NextRequest) {
       }).then(async (res) => {
         if (!res.ok) throw new Error(`Privyr responded ${res.status}: ${await res.text()}`);
       })
-    : Promise.reject(new Error("PRIVYR_AUTH_TOKEN not configured"));
+    : Promise.reject(new Error("PRIVYR_WEBHOOK_URL not configured"));
 
   const [emailResult, privyrResult] = await Promise.allSettled([sendEmail, sendToPrivyr]);
 
