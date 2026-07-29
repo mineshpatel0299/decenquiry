@@ -123,13 +123,50 @@ export async function POST(request: NextRequest) {
       })
     : Promise.reject(new Error("PRIVYR_WEBHOOK_URL not configured"));
 
-  const [emailResult, privyrResult] = await Promise.allSettled([sendEmail, sendToPrivyr]);
+  // "Successful" leads are the ones that clear the minimum budget threshold
+  // (the same check EnquiryForm uses to route to /thank-you vs /budget-notice).
+  const isApprovedLead = budget !== "Under 50 Lakhs" && budget !== "Under 75 Lakhs";
+
+  const sendToGallabox = !isApprovedLead
+    ? Promise.resolve("skipped: lead below budget threshold" as const)
+    : !process.env.GALLABOX_WEBHOOK_URL
+      ? Promise.resolve("skipped: GALLABOX_WEBHOOK_URL not configured" as const)
+      : fetch(process.env.GALLABOX_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone: `${countryCode ?? ""} ${phone}`.trim(),
+            email,
+            lead_source: "Decofice Website",
+            budget,
+            start_time: startTime,
+            project_kind: projectKind,
+            location,
+            service,
+            about_project: aboutProject,
+            heard_about: heardAbout,
+          }),
+        }).then(async (res) => {
+          if (!res.ok) throw new Error(`Gallabox responded ${res.status}: ${await res.text()}`);
+        });
+
+  const [emailResult, privyrResult, gallaboxResult] = await Promise.allSettled([
+    sendEmail,
+    sendToPrivyr,
+    sendToGallabox,
+  ]);
 
   if (emailResult.status === "rejected") {
     console.error("Failed to send enquiry email:", emailResult.reason);
   }
   if (privyrResult.status === "rejected") {
     console.error("Failed to push lead to Privyr:", privyrResult.reason);
+  }
+  if (gallaboxResult.status === "rejected") {
+    console.error("Failed to notify Gallabox:", gallaboxResult.reason);
+  } else if (typeof gallaboxResult.value === "string") {
+    console.log(`Gallabox notification ${gallaboxResult.value}`);
   }
 
   if (emailResult.status === "rejected" && privyrResult.status === "rejected") {
