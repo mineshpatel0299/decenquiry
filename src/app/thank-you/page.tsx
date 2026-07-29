@@ -30,13 +30,13 @@ export default function ThankYouPage() {
         </div>
 
         <h2 className="text-[10px] font-semibold tracking-[0.3em] text-[#105E3F]/80 uppercase mb-4">
-          Lead Status
+          Submission successful
         </h2>
 
         <h1 className="text-4xl sm:text-[46px] font-bold text-neutral-900 tracking-tight mb-8 leading-[1.15]">
-          This Lead Has Been <br />
+          Thank You For Your  <br />
           <span className="font-serif italic font-light text-[#105E3F] relative inline-block mt-1">
-            Approved
+            Enquiry
             <svg className="absolute -bottom-2 left-0 w-full h-2 text-[#105E3F]/30" viewBox="0 0 100 10" preserveAspectRatio="none">
               <path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" strokeWidth="1" />
             </svg>
@@ -46,7 +46,7 @@ export default function ThankYouPage() {
         {/* Premium Message Box */}
         <div className="relative bg-[#f9fdfa] border border-[#105E3F]/10 rounded-2xl px-6 sm:px-8 py-6 sm:py-7 mb-10 w-full max-w-lg shadow-[inset_0_1px_0_rgba(255,255,255,1),0_8px_20px_-4px_rgba(16,94,63,0.04)] text-center">
           <p className="text-[15px] sm:text-[15.5px] text-neutral-700 leading-[1.7] font-medium">
-            Thank you for enquiring. Your project meets our minimum execution value of <span className="font-semibold text-[#105E3F]">₹75 Lakhs</span>, and our team will get in touch with you shortly to discuss the next steps.
+            "Thank you for Submitting the enquiry our team shall get in touch with you"
           </p>
         </div>
 
