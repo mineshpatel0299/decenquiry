@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { getSql } from "@/db";
 
 interface EnquiryPayload {
   name: string;
@@ -53,9 +54,36 @@ export async function POST(request: NextRequest) {
 
   // "Approved" leads are the ones that clear the minimum budget threshold
   // (the same check EnquiryForm uses to route to /thank-you vs /budget-notice).
-  const isApprovedLead = budget !== "Under 50 Lakhs" && budget !== "Under 75 Lakhs";
+  const clearsThreshold = budget !== "Under 50 Lakhs" && budget !== "Under 75 Lakhs";
+  const normalizedPhone = `${countryCode ?? ""} ${phone}`.trim();
+
+  const sql = getSql();
+
+  let previouslyRejected = false;
+  try {
+    const rows = await sql`
+      SELECT 1 FROM rejected_leads
+      WHERE phone = ${normalizedPhone} AND rejected_at > now() - interval '1 year'
+    `;
+    previouslyRejected = rows.length > 0;
+  } catch (err) {
+    console.error("Failed to check rejected_leads table:", err);
+  }
+
+  const isApprovedLead = clearsThreshold && !previouslyRejected;
 
   if (!isApprovedLead) {
+    if (!clearsThreshold) {
+      try {
+        await sql`
+          INSERT INTO rejected_leads (phone, rejected_at)
+          VALUES (${normalizedPhone}, now())
+          ON CONFLICT (phone) DO UPDATE SET rejected_at = now()
+        `;
+      } catch (err) {
+        console.error("Failed to record rejected lead:", err);
+      }
+    }
     return NextResponse.json({ success: true });
   }
 
@@ -72,7 +100,7 @@ export async function POST(request: NextRequest) {
   const rows: [string, string | undefined][] = [
     ["Name", name],
     ["Email", email],
-    ["Phone", `${countryCode ?? ""} ${phone}`.trim()],
+    ["Phone", normalizedPhone],
     ["Budget", budget],
     ["Start Time", startTime],
     ["Kind of Project", projectKind],
@@ -116,7 +144,7 @@ export async function POST(request: NextRequest) {
           name,
           lead_source: "Decofice Website",
           email,
-          phone: `${countryCode ?? ""} ${phone}`.trim(),
+          phone: normalizedPhone,
           other_fields: {
             Budget: budget,
             "Start Time": startTime,
@@ -138,7 +166,7 @@ export async function POST(request: NextRequest) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          phone: `${countryCode ?? ""} ${phone}`.trim(),
+          phone: normalizedPhone,
           email,
           // Placeholder text — swap these for your real Gallabox dropdown option
           // names once you've mapped this webhook to its predefined fields.
