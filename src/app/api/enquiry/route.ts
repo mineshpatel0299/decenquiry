@@ -51,6 +51,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
+  // "Approved" leads are the ones that clear the minimum budget threshold
+  // (the same check EnquiryForm uses to route to /thank-you vs /budget-notice).
+  const isApprovedLead = budget !== "Under 50 Lakhs" && budget !== "Under 75 Lakhs";
+
+  if (!isApprovedLead) {
+    return NextResponse.json({ success: true });
+  }
+
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT) || 587,
@@ -97,60 +105,52 @@ export async function POST(request: NextRequest) {
     html,
   });
 
-  // "Approved" leads are the ones that clear the minimum budget threshold
-  // (the same check EnquiryForm uses to route to /thank-you vs /budget-notice).
-  const isApprovedLead = budget !== "Under 50 Lakhs" && budget !== "Under 75 Lakhs";
-
-  const sendToPrivyr = !isApprovedLead
-    ? Promise.resolve("skipped: lead below budget threshold" as const)
-    : !process.env.PRIVYR_WEBHOOK_URL
-      ? Promise.resolve("skipped: PRIVYR_WEBHOOK_URL not configured" as const)
-      : fetch(process.env.PRIVYR_WEBHOOK_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+  const sendToPrivyr = !process.env.PRIVYR_WEBHOOK_URL
+    ? Promise.resolve("skipped: PRIVYR_WEBHOOK_URL not configured" as const)
+    : fetch(process.env.PRIVYR_WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          lead_source: "Decofice Website",
+          email,
+          phone: `${countryCode ?? ""} ${phone}`.trim(),
+          other_fields: {
+            Budget: budget,
+            "Start Time": startTime,
+            "Kind of Project": projectKind,
+            Location: location,
+            "Service Needed": service,
+            "About the Project": aboutProject,
+            "Heard About Us Via": heardAbout,
           },
-          body: JSON.stringify({
-            name,
-            lead_source: "Decofice Website",
-            email,
-            phone: `${countryCode ?? ""} ${phone}`.trim(),
-            other_fields: {
-              Budget: budget,
-              "Start Time": startTime,
-              "Kind of Project": projectKind,
-              Location: location,
-              "Service Needed": service,
-              "About the Project": aboutProject,
-              "Heard About Us Via": heardAbout,
-            },
-          }),
-        }).then(async (res) => {
-          if (!res.ok) throw new Error(`Privyr responded ${res.status}: ${await res.text()}`);
-        });
+        }),
+      }).then(async (res) => {
+        if (!res.ok) throw new Error(`Privyr responded ${res.status}: ${await res.text()}`);
+      });
 
-  const sendToGallabox = !isApprovedLead
-    ? Promise.resolve("skipped: lead below budget threshold" as const)
-    : !process.env.GALLABOX_WEBHOOK_URL
-      ? Promise.resolve("skipped: GALLABOX_WEBHOOK_URL not configured" as const)
-      : fetch(process.env.GALLABOX_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            phone: `${countryCode ?? ""} ${phone}`.trim(),
-            email,
-            // Placeholder text — swap these for your real Gallabox dropdown option
-            // names once you've mapped this webhook to its predefined fields.
-            tags: "Website",
-            lead_source: "Website",
-            lead_stage: "New",
-            payment_status: "Unpaid",
-            service,
-          }),
-        }).then(async (res) => {
-          if (!res.ok) throw new Error(`Gallabox responded ${res.status}: ${await res.text()}`);
-        });
+  const sendToGallabox = !process.env.GALLABOX_WEBHOOK_URL
+    ? Promise.resolve("skipped: GALLABOX_WEBHOOK_URL not configured" as const)
+    : fetch(process.env.GALLABOX_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone: `${countryCode ?? ""} ${phone}`.trim(),
+          email,
+          // Placeholder text — swap these for your real Gallabox dropdown option
+          // names once you've mapped this webhook to its predefined fields.
+          tags: "Website",
+          lead_source: "Website",
+          lead_stage: "New",
+          payment_status: "Unpaid",
+          service,
+        }),
+      }).then(async (res) => {
+        if (!res.ok) throw new Error(`Gallabox responded ${res.status}: ${await res.text()}`);
+      });
 
   const [emailResult, privyrResult, gallaboxResult] = await Promise.allSettled([
     sendEmail,
