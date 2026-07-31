@@ -97,35 +97,37 @@ export async function POST(request: NextRequest) {
     html,
   });
 
-  const sendToPrivyr = process.env.PRIVYR_WEBHOOK_URL
-    ? fetch(process.env.PRIVYR_WEBHOOK_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          lead_source: "Decofice Website",
-          email,
-          phone: `${countryCode ?? ""} ${phone}`.trim(),
-          other_fields: {
-            Budget: budget,
-            "Start Time": startTime,
-            "Kind of Project": projectKind,
-            Location: location,
-            "Service Needed": service,
-            "About the Project": aboutProject,
-            "Heard About Us Via": heardAbout,
-          },
-        }),
-      }).then(async (res) => {
-        if (!res.ok) throw new Error(`Privyr responded ${res.status}: ${await res.text()}`);
-      })
-    : Promise.reject(new Error("PRIVYR_WEBHOOK_URL not configured"));
-
-  // "Successful" leads are the ones that clear the minimum budget threshold
+  // "Approved" leads are the ones that clear the minimum budget threshold
   // (the same check EnquiryForm uses to route to /thank-you vs /budget-notice).
   const isApprovedLead = budget !== "Under 50 Lakhs" && budget !== "Under 75 Lakhs";
+
+  const sendToPrivyr = !isApprovedLead
+    ? Promise.resolve("skipped: lead below budget threshold" as const)
+    : !process.env.PRIVYR_WEBHOOK_URL
+      ? Promise.resolve("skipped: PRIVYR_WEBHOOK_URL not configured" as const)
+      : fetch(process.env.PRIVYR_WEBHOOK_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            lead_source: "Decofice Website",
+            email,
+            phone: `${countryCode ?? ""} ${phone}`.trim(),
+            other_fields: {
+              Budget: budget,
+              "Start Time": startTime,
+              "Kind of Project": projectKind,
+              Location: location,
+              "Service Needed": service,
+              "About the Project": aboutProject,
+              "Heard About Us Via": heardAbout,
+            },
+          }),
+        }).then(async (res) => {
+          if (!res.ok) throw new Error(`Privyr responded ${res.status}: ${await res.text()}`);
+        });
 
   const sendToGallabox = !isApprovedLead
     ? Promise.resolve("skipped: lead below budget threshold" as const)
@@ -161,6 +163,8 @@ export async function POST(request: NextRequest) {
   }
   if (privyrResult.status === "rejected") {
     console.error("Failed to push lead to Privyr:", privyrResult.reason);
+  } else if (typeof privyrResult.value === "string") {
+    console.log(`Privyr push ${privyrResult.value}`);
   }
   if (gallaboxResult.status === "rejected") {
     console.error("Failed to notify Gallabox:", gallaboxResult.reason);
