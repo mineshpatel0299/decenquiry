@@ -5,10 +5,10 @@ import gsap from "gsap";
 
 const navLinks = [
   { label: "Projects", href: "https://www.decofice.com/project" },
-  { label: "Real Estate Solution", href: "https://www.decofice.com/realestate-solution" },
+  { label: "Commercial", href: "https://commercial.decofice.com/" },
+  { label: "Resort", href: "https://resort.decofice.com" },
   { label: "About Us", href: "https://www.decofice.com/about" },
-  { label: "Start Your Project", href: "https://www.decofice.com/project-booking" },
-  { label: "Resorts", href: "https://resort.decofice.com" },
+  { label: "Real Estate Solutions", href: "https://www.decofice.com/realestate-solution" },
 ];
 
 export default function Navbar() {
