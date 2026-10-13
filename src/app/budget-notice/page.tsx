@@ -29,14 +29,14 @@ export default function BudgetNoticePage() {
           </div>
         </div>
 
-        <h2 className="text-[10px] font-semibold tracking-[0.3em] text-[#FF3131]/80 uppercase mb-4">
-          Lead Status.
-        </h2>
+        <p className="rounded-full border border-[#8B2635]/10 bg-[#fdfbfb] px-4 py-2 text-xs font-semibold tracking-wide text-[#8B2635] mb-4">
+          Beyond Our Current Scope
+        </p>
 
         <h1 className="text-4xl sm:text-[46px] font-bold text-neutral-900 tracking-tight mb-8 leading-[1.15]">
-          Your enquiry has been  <br />
+          Thank You for Your <br />
           <span className="font-serif italic font-light text-[#E8392C] relative inline-block mt-1">
-            Rejected
+            Enquiry
             <svg className="absolute -bottom-2 left-0 w-full h-2 text-[#8B2635]/30" viewBox="0 0 100 10" preserveAspectRatio="none">
               <path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" strokeWidth="1" />
             </svg>
@@ -50,9 +50,9 @@ export default function BudgetNoticePage() {
           </p>
         </div>
 
-        {/* Subtext */}
+        {/* Body */}
         <p className="text-[13px] sm:text-sm text-neutral-400 mb-10 max-w-md leading-relaxed px-4">
-          We focus exclusively on large-scale turnkey architecture and luxury interior developments. We sincerely appreciate your interest and wish you the absolute best with your upcoming project!
+          We focus exclusively on large-scale turnkey architecture and luxury interior projects. We sincerely appreciate your interest and wish you the absolute best with your upcoming project!
         </p>
 
         {/* Premium Action Button */}
@@ -65,7 +65,7 @@ export default function BudgetNoticePage() {
             <svg className="w-4 h-4 relative z-10 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            <span className="relative z-10 tracking-wide">Return to Homepage</span>
+            <span className="relative z-10 tracking-wide">Return to Home</span>
           </Link>
         </div>
 
